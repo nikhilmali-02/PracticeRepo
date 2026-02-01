@@ -1,8 +1,7 @@
-import 'package:app/stateful.dart';
 import 'package:flutter/material.dart';
-import 'stateful.dart';
+
 void main(){
-  runApp(const MyAap());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget{
@@ -12,61 +11,64 @@ class MyApp extends StatelessWidget{
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: MyHomePage(title:'ToDo'),
+      home: MyApplication(title:"ToDOM" ),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this. title});
+class MyApplication extends StatefulWidget{
+  MyApplication ({super.key, required this.title});
   final String title;
-
   @override
-  State<StatefulWidget> createState() => _MyHomePageState();
+  State<MyApplication> createState() => _MyAppState(); 
 }
 
-class _MyHomePageState extends State<MyHomePage>{
-  final TextEditingController _controller = TextEditingController();
-  final List<String> tasks = [];
+class _MyAppState extends State<MyApplication> {
+  TextEditingController _controller = TextEditingController();
+  final List<String> task = [];
   @override
   Widget build(BuildContext context) {
+    print("BUILD");
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Padding(padding: const EdgeInsets.all(16),
-      child: Column(
-          children: [
-            TextField(
-              controller: _controller,
-              decoration: const InputDecoration(
-                hintText: "Enter Task",
-              ),
-      ),
-      const SizedBox(height: 20,),
-      ElevatedButton(onPressed: (){
-        if(_controller.text.isEmpty) return;
-        setState(() {
-          tasks.add(_controller.text);
-          _controller.clear();
-        });
-      }, child: Text("Add"),
-      ),
-      Expanded(child: ListView.builder(itemCount : tasks.length,
-          itemBuilder: (context, index){
-            return ListTile(
-              title: Text(tasks[index]),
-              trailing: IconButton(onPressed: (){
-                setState(() {
-                  tasks.removeAt(index);
-                });
-              }, icon: Icon(Icons.delete)),
-            );
-      }))
+    body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          TextField(
+            controller: _controller,
+            decoration: InputDecoration(
+              hintText: "Enter Task"
+            ),
+          ),
+          ElevatedButton(onPressed: (){
+            if(_controller.text.isEmpty) return ;
+            print("ADD");
+            setState(() {
+              task.add(_controller.text);
+              _controller.clear();
+            });
+          }, child: Text("ADD")
+          ),
+          Expanded(child: ListView.builder(
+              itemCount: task.length,
+              itemBuilder: (context, index){
+                return ListTile(
+                  title: Text(task[index]),
+                  trailing: IconButton(onPressed: (){
+                    print("DELETE");
+                    setState(() {
+                      task.removeAt(index);
+                    });
+                  }, icon: Icon(Icons.delete)),
+                );
+              }
+          )
+          )
         ],
-      ),),
+    ),
     );
+    
   }
-
-}
-
+} 
