@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'stateful.dart';
 
 void main(){
   runApp(const MyApp());
@@ -24,7 +25,15 @@ class MyApplication extends StatefulWidget{
 }
 
 class _MyAppState extends State<MyApplication> {
-  TextEditingController _controller = TextEditingController();
+  late TextEditingController _controller;
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController();
+    print("INIT");
+  }
+
+
   final List<String> task = [];
   @override
   Widget build(BuildContext context) {
@@ -51,6 +60,10 @@ class _MyAppState extends State<MyApplication> {
             });
           }, child: Text("ADD")
           ),
+          ElevatedButton(onPressed: (){
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MyHome()));
+          }, child: Text("NEXT")
+          ),
           Expanded(child: ListView.builder(
               itemCount: task.length,
               itemBuilder: (context, index){
@@ -63,12 +76,16 @@ class _MyAppState extends State<MyApplication> {
                     });
                   }, icon: Icon(Icons.delete)),
                 );
-              }
-          )
+              })
           )
         ],
     ),
     );
-    
+  }
+  @override
+  void dispose() {
+    print("DISPOSE");
+    _controller.dispose();
+    super.dispose();
   }
 } 
