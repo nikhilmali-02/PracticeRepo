@@ -12,9 +12,7 @@ class FakeTodo extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: MyFake (),
     );
-
   }
-
 }
 
 class MyFake extends StatefulWidget {
@@ -73,7 +71,8 @@ class MyFakeState extends State<MyFake> {
         itemCount: task.length,
         itemBuilder: (_,index) => ListTile(
           title: Text(task[index]),
-        )),
+        )
+    ),
   );
   }
 }
