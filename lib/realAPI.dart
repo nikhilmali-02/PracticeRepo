@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -41,23 +42,28 @@ class Todo {
   }
 }
 
-class MyrealState extends State<Myreal>{
+class MyrealState extends State<Myreal> {
   bool isLoading = false;
   List<Todo> todos = [];
-  String? error ;
+  String? error;
 
-  Future<List<Todo>> fetchTodos() async{
-    final uri = Uri.parse(
-        'https://jsonplaceholder.typicode.com/todos?_limit=5',
-    );
+  Future<List<Todo>> fetchTodos() async {
+    await Future.delayed(const Duration(seconds: 2));
 
-    final response  = await http.get(uri);
+    final random = Random();
+    if (random.nextBool()) {
+      throw Exception("simulated network Failure");
+    }
+    final response = await http
+        .get(Uri.parse(
+      'https://jsonplaceholder.typicode.com/todos?_limit=5',))
+        .timeout(const Duration(seconds: 5));
 
-    if(response.statusCode == 200)  {
-      final List data =   jsonDecode(response.body);
-      return data.map((e)=> Todo.fromJson(e)).toList();
+    if (response.statusCode == 200) {
+      final List data = jsonDecode(response.body);
+      return data.map((e) => Todo.fromJson(e)).toList();
     } else {
-        throw Exception("Failed to load Todos");
+      throw Exception("Failed to load Todos");
     }
   }
 
@@ -69,21 +75,22 @@ class MyrealState extends State<Myreal>{
 
   Future<void> loadTodos() async {
     setState(() {
-      print("Loading");
       isLoading = true;
       error = null;
     });
 
-    try{
-      var todos = await fetchTodos();
+    try {
+      final result = await fetchTodos();
+      setState(() {
+        todos = result;
+      });
     } catch (e) {
       setState(() {
-        print(e);
         error = e.toString();
+        todos = [];
       });
     } finally {
       setState(() {
-        print("Finally");
         isLoading = false;
       });
     }
@@ -91,28 +98,51 @@ class MyrealState extends State<Myreal>{
 
   @override
   Widget build(BuildContext context) {
-    if (isLoading){
-      return const Center(child: CircularProgressIndicator(),);
-    }
-    if(error != null){
-      return Center(child: Text(
-        error!,
-        textAlign: TextAlign.center,
-        style: const TextStyle(color: Colors.red),
-      )
-        ,);
-    }
     return Scaffold(
-      body: ListView.builder(
-          itemCount: todos.length,
-          itemBuilder: (context, index){
-            return ListTile(
-              title: Text(todos[index].title),
-              trailing: Icon(
-                todos[index].completed ? Icons.check_circle : Icons.circle_outlined
-              ),
-            );
-          }
+      body: _buildBody(),
+    );
+  }
+
+  Widget _buildBody() {
+    if (isLoading) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+
+    if (error != null) {
+      return Center(
+        child: Column(
+          children: [
+            Text(
+              error!,
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: Colors.red),
+            ),
+            const SizedBox(height: 12,),
+            ElevatedButton(
+                onPressed: loadTodos,
+                child:const Text("Retry"),
+            ),
+          ],
+        ),
+      );
+    }
+
+    return RefreshIndicator(
+      onRefresh:loadTodos,
+      child: ListView.builder(
+        itemCount: todos.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(todos[index].title),
+            trailing: Icon(
+              todos[index].completed
+                  ? Icons.check_circle
+                  : Icons.circle_outlined,
+            ),
+          );
+        },
       ),
     );
   }
