@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
@@ -57,7 +58,7 @@ class MyrealState extends State<Myreal> {
     final response = await http
         .get(Uri.parse(
       'https://jsonplaceholder.typicode.com/todos?_limit=5',))
-        .timeout(const Duration(seconds: 5));
+        .timeout(const Duration(milliseconds:  1));
 
     if (response.statusCode == 200) {
       final List data = jsonDecode(response.body);
@@ -85,6 +86,14 @@ class MyrealState extends State<Myreal> {
         todos = result;
       });
     } catch (e) {
+      String message;
+
+      if(e is TimeoutException){
+        message = 'connection timeout please try again';
+      } else {
+        message = 'something went wrong. Please try again';
+      }
+
       setState(() {
         error = e.toString();
         todos = [];
@@ -99,6 +108,7 @@ class MyrealState extends State<Myreal> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Text("realApi"),),
       body: _buildBody(),
     );
   }
