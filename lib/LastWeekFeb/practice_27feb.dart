@@ -78,7 +78,8 @@ class TwoSevenState extends State<TwoSevenHome> {
                   itemBuilder: (_,index)=>ListTile(
                     title: Text(task[index]),
                   )
-              ))
+              )
+            )
         ],
         )
       ),
