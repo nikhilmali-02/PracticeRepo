@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:app/Controllers/TaskController.dart';
 import 'package:app/Services/Service_28.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class TowEightHome extends StatefulWidget  {
 }
 
 class TowEightState extends State<TowEightHome> {
-  final TaskService Service = TaskService();
+  final Taskcontroller controller = Taskcontroller(TaskService());
 
   bool isLoading = false;
   List<String> task = [];
@@ -40,7 +41,7 @@ class TowEightState extends State<TowEightHome> {
       error = null;
     });
     try{
-      final result = await Service.fetchTask();
+      final result = await controller.loadTasks();
       setState(() {
         task = result;
       });
@@ -65,7 +66,7 @@ class TowEightState extends State<TowEightHome> {
         ? CircularProgressIndicator()
         : error != null
           ? Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
             children: [
               Text("Failed to load"),
               SizedBox(height: 20,),
