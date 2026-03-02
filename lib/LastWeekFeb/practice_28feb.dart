@@ -43,7 +43,7 @@ class TowEightState extends State<TowEightHome> {
     try{
       final result = await controller.loadTasks();
       setState(() {
-        task = result;
+        //task = result;
       });
     } catch (e){
       setState(() {
