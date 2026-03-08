@@ -2,13 +2,13 @@ import 'dart:async';
 import 'dart:math';
 
 class TaskService {
-  Future<List<String>> fetchTask() async {
+  Future<List<String>> fetchTask() async{
     await Future.delayed(Duration(seconds: 2));
 
     final responseDelay = Random().nextInt(3);
 
     if(responseDelay==0){
-      throw TimeoutException("Timeout");
+      throw TimeoutException("Timeout");             //retyped 8 March
     }
     if(responseDelay==1){
       throw Exception("Error");

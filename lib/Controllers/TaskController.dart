@@ -10,22 +10,18 @@ class Taskcontroller extends ChangeNotifier{
   List<String> task = [];
   String? error;
 
-  Future<void> loadTasks() async {
+  Future<void> loadTasks() async{
     if (isLoading) return;
-
-    isLoading = true;
-    error = null;
-    notifyListeners();
 
     try{
       final result = await service.fetchTask();
       task = result;
-    } catch (e){
+    } catch(e){
       error = 'Failed to load';
       task = [];
     } finally{
-      isLoading=false;
-      notifyListeners();
+      isLoading = false;
+      notifyListeners();//retyped 8 March
     }
   }
 }

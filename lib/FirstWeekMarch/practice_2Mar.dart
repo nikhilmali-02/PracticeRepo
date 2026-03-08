@@ -20,8 +20,7 @@ class TwoMarHome extends StatefulWidget  {
 }
 
 class TwoMarState extends State<TwoMarHome> {
-  late final Taskcontroller controller;
-
+  late final Taskcontroller controller;//retyped 8 March
 
   @override
   void initState() {
@@ -29,18 +28,19 @@ class TwoMarState extends State<TwoMarHome> {
     controller = Taskcontroller(TaskService());
     controller.addListener(_onUpdate);
     controller.loadTasks();
-  }
+  }//retyped 8 March
 
-  void _onUpdate() {
-    setState(() {
-    });
-  }
+  void _onUpdate(){
+   setState(() {
+
+   });
+  }//retyped 8 March
 
   @override
-  void dispose(){
+  void dispose() {
     controller.removeListener(_onUpdate);
     super.dispose();
-  }
+  }   //retyped 8 March
 
   @override
   Widget build(BuildContext context) {
