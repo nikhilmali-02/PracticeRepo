@@ -2,13 +2,17 @@ import 'package:app/Controllers/TaskController.dart';
 import 'package:app/Services/Service_28.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class TwoMar extends StatelessWidget {
   const TwoMar ({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: TwoMarHome(),
+    return ChangeNotifierProvider(
+      create: (_) => Taskcontroller(TaskService())..loadTasks(),
+      child: MaterialApp(
+        home: TwoMarHome(),
+      ),
     );
   }
 }
@@ -20,30 +24,10 @@ class TwoMarHome extends StatefulWidget  {
 }
 
 class TwoMarState extends State<TwoMarHome> {
-  late final Taskcontroller controller;//retyped 8 March
-
-  @override
-  void initState() {
-    super.initState();
-    controller = Taskcontroller(TaskService());
-    controller.addListener(_onUpdate);
-    controller.loadTasks();
-  }//retyped 8 March
-
-  void _onUpdate(){
-   setState(() {
-
-   });
-  }//retyped 8 March
-
-  @override
-  void dispose() {
-    controller.removeListener(_onUpdate);
-    super.dispose();
-  }   //retyped 8 March
 
   @override
   Widget build(BuildContext context) {
+    final controller = context.watch<Taskcontroller>();
     return Scaffold(
       body: Center(
           child: controller.isLoading
