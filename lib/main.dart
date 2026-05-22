@@ -3,14 +3,16 @@ import 'package:app/April/practice_4April.dart';
 import 'package:app/March/31march_practice.dart';
 import 'package:app/LastWeekFeb/practice_24feb.dart';
 import 'package:app/LastWeekFeb/practice_26feb.dart';
+import 'package:app/Services/network_service_22May.dart';
 import 'package:app/realAPI.dart';
 import 'package:flutter/material.dart';
 import 'FakeApi.dart';
 import 'stateful.dart';
 import 'package:app/LastWeekFeb/practice_28feb.dart';
 
-void main(){
-  runApp(FourApril());
+void main() async {
+  final service = NetworkService();
+  await service.fetchTodos();
 }
 
 class MyApp extends StatelessWidget{
