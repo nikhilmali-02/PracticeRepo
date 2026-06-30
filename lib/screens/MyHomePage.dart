@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatelessWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+  const MyHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class MyHomePage extends StatelessWidget {
 }
 
 class MyHomePageScreen extends StatefulWidget {
-  const MyHomePageScreen({Key? key}) : super(key: key);
+  const MyHomePageScreen({super.key});
 
   @override
   State<MyHomePageScreen> createState() => _MyHomePageScreenState();
@@ -28,7 +28,7 @@ class _MyHomePageScreenState extends State<MyHomePageScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('My Home Page')),
       body: Center(
-        child: GestureDetector.new(
+        child: GestureDetector(
           onTap: () => setState(() {
             _isExpanded = !_isExpanded;
           }),
