@@ -6,17 +6,15 @@ class TwoSeven extends StatelessWidget {
   const TwoSeven({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: TwoSevenHome(),
-    );
-
+    return MaterialApp(debugShowCheckedModeBanner: false, home: TwoSevenHome());
   }
 }
 
 class TwoSevenHome extends StatefulWidget {
+  const TwoSevenHome({super.key});
+
   @override
-  State<TwoSevenHome> createState()=>TwoSevenState();
+  State<TwoSevenHome> createState() => TwoSevenState();
 }
 
 class TwoSevenState extends State<TwoSevenHome> {
@@ -31,7 +29,7 @@ class TwoSevenState extends State<TwoSevenHome> {
   }
 
   Future<void> loadTask() async {
-    if(isLoading) return;
+    if (isLoading) return;
     setState(() {
       isLoading = true;
       error = null;
@@ -39,13 +37,13 @@ class TwoSevenState extends State<TwoSevenHome> {
     try {
       await Future.delayed(Duration(seconds: 2));
 
-      if(Random().nextBool()){
+      if (Random().nextBool()) {
         throw Exception("Error");
       }
       setState(() {
-        task = ['task a','task b','task c'];
+        task = ['task a', 'task b', 'task c'];
       });
-    } catch(e){
+    } catch (e) {
       setState(() {
         error = "Failed to Load";
         task = [];
@@ -62,28 +60,27 @@ class TwoSevenState extends State<TwoSevenHome> {
     return Scaffold(
       body: Center(
         child: isLoading
-        ? CircularProgressIndicator()
-        : error != null
+            ? CircularProgressIndicator()
+            : error != null
             ? Column(
-              children: [
-                Text("Failed to load"),
-                SizedBox(height: 20,),
-                ElevatedButton(onPressed: loadTask,
-                    child: Text("Retry"))
-              ],
-            )
-            : Column(children: [
-              Expanded(child: ListView.builder(
-                  itemCount: task.length,
-                  itemBuilder: (_,index)=>ListTile(
-                    title: Text(task[index]),
-                  )
+                children: [
+                  Text("Failed to load"),
+                  SizedBox(height: 20),
+                  ElevatedButton(onPressed: loadTask, child: Text("Retry")),
+                ],
               )
-            )
-        ],
-        )
+            : Column(
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: task.length,
+                      itemBuilder: (_, index) =>
+                          ListTile(title: Text(task[index])),
+                    ),
+                  ),
+                ],
+              ),
       ),
     );
   }
-
 }

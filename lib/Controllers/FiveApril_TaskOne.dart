@@ -1,30 +1,30 @@
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
 
-class TaskOne extends ChangeNotifier {
-    final TaskSeva seva;
+// class TaskOne extends ChangeNotifier {
+//     final TaskSeva seva;
 
-    TaskOne(this.seva);
+//     TaskOne(this.seva);
 
-    bool isLoading = false;
-    List<String> task = [];
-    String? error;
+//     bool isLoading = false;
+//     List<String> task = [];
+//     String? error;
 
-    Future<void> loadTask() async {
-      if(isLoading) return;
+//     Future<void> loadTask() async {
+//       if(isLoading) return;
 
-      isLoading = true;
-      notifyListeners();
+//       isLoading = true;
+//       notifyListeners();
 
-      try{
-        final result = await seva.fetchTask;
-        task = result;
-      } catch{
-        error = "Failed";
-        task=[];
-      } finally{
-        isLoading = false;
-        notifyListeners();
-      }
-    }
+//       try{
+//         final result = await seva.fetchTask;
+//         task = result;
+//       } catch{
+//         error = "Failed";
+//         task=[];
+//       } finally{
+//         isLoading = false;
+//         notifyListeners();
+//       }
+//     }
 
-}
+// }

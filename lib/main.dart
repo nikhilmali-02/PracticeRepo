@@ -6,6 +6,9 @@ import 'package:app/LastWeekFeb/practice_24feb.dart';
 import 'package:app/LastWeekFeb/practice_26feb.dart';
 import 'package:app/Services/network_service_22May.dart';
 import 'package:app/realAPI.dart';
+import 'package:app/screens/ExplicitAnimation.dart';
+import 'package:app/screens/HeroAnimation.dart';
+import 'package:app/screens/MyHomePage.dart';
 import 'package:app/screens/todo_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,11 +16,15 @@ import 'FakeApi.dart';
 import 'stateful.dart';
 import 'package:app/LastWeekFeb/practice_28feb.dart';
 
-Future<void> main() async {
-  await NetworkService().fetchTodoByUser(1);
+void main() {
+  runApp(const HeroAnimation());
 }
 
-class MyApp extends StatelessWidget{
+// Future<void> main() async {
+//   await NetworkService().fetchTodoByUser(1);
+// }
+
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
@@ -26,18 +33,18 @@ class MyApp extends StatelessWidget{
       create: (context) => TodoController(),
       child: MaterialApp(
         title: 'Todo App',
-      debugShowCheckedModeBanner: false,
-      home: TodoScreen(),
+        debugShowCheckedModeBanner: false,
+        home: TodoScreen(),
       ),
     );
   }
 }
 
-class MyApplication extends StatefulWidget{
-  MyApplication ({super.key, required this.title});
+class MyApplication extends StatefulWidget {
+  const MyApplication({super.key, required this.title});
   final String title;
   @override
-  State<MyApplication> createState() => _MyAppState(); 
+  State<MyApplication> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApplication> {
@@ -49,59 +56,67 @@ class _MyAppState extends State<MyApplication> {
     print("INIT");
   }
 
-
   final List<String> task = [];
   @override
   Widget build(BuildContext context) {
     print("BUILD");
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-    body: Column(
+      appBar: AppBar(title: Text(widget.title)),
+      body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           TextField(
             controller: _controller,
-            decoration: InputDecoration(
-              hintText: "Enter Task"
-            ),
+            decoration: InputDecoration(hintText: "Enter Task"),
           ),
-          ElevatedButton(onPressed: (){
-            if(_controller.text.isEmpty) return ;
-            print("ADD");
-            setState(() {
-              task.add(_controller.text);
-              _controller.clear();
-            });
-          }, child: Text("ADD")
+          ElevatedButton(
+            onPressed: () {
+              if (_controller.text.isEmpty) return;
+              print("ADD");
+              setState(() {
+                task.add(_controller.text);
+                _controller.clear();
+              });
+            },
+            child: Text("ADD"),
           ),
-          ElevatedButton(onPressed: (){
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MyHome()));
-          }, child: Text("NEXT")
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const MyHome()),
+              );
+            },
+            child: Text("NEXT"),
           ),
-          Expanded(child: ListView.builder(
+          Expanded(
+            child: ListView.builder(
               itemCount: task.length,
-              itemBuilder: (context, index){
+              itemBuilder: (context, index) {
                 return ListTile(
                   title: Text(task[index]),
-                  trailing: IconButton(onPressed: (){
-                    print("DELETE");
-                    setState(() {
-                      task.removeAt(index);
-                    });
-                  }, icon: Icon(Icons.delete)),
+                  trailing: IconButton(
+                    onPressed: () {
+                      print("DELETE");
+                      setState(() {
+                        task.removeAt(index);
+                      });
+                    },
+                    icon: Icon(Icons.delete),
+                  ),
                 );
-              })
-          )
+              },
+            ),
+          ),
         ],
-    ),
+      ),
     );
   }
+
   @override
   void dispose() {
     print("DISPOSE");
     _controller.dispose();
     super.dispose();
   }
-} 
+}

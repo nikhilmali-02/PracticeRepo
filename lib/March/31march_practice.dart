@@ -2,17 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 final GoRouter router = GoRouter(
-    routes:[
-      GoRoute(
-          path: '/',
-        builder: (context,state) => ThirtyOneHome(),
-      ),
-      GoRoute(path: '/detail/:id',
-        builder: (context,state) => DetailScreen(
-          id: state.pathParameters['id']!,
-        ),
-      ),
-    ]);
+  routes: [
+    GoRoute(path: '/', builder: (context, state) => ThirtyOneHome()),
+    GoRoute(
+      path: '/detail/:id',
+      builder: (context, state) =>
+          DetailScreen(id: state.pathParameters['id']!),
+    ),
+  ],
+);
+
 class ThirtyOne extends StatelessWidget {
   const ThirtyOne({super.key});
   @override
@@ -35,9 +34,12 @@ class ThirtyOne_State extends State<ThirtyOneHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: ElevatedButton(onPressed: (){
-          context.go('/detail/5');
-        }, child: Text('Next')),
+        child: ElevatedButton(
+          onPressed: () {
+            context.go('/detail/5');
+          },
+          child: Text('Next'),
+        ),
       ),
     );
   }
@@ -46,16 +48,9 @@ class ThirtyOne_State extends State<ThirtyOneHome> {
 class DetailScreen extends StatelessWidget {
   final String id;
 
-  const DetailScreen({
-    super.key,
-    required this.id,
-  });
+  const DetailScreen({super.key, required this.id});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text("$id"),
-      ),
-    );
+    return Scaffold(body: Center(child: Text(id)));
   }
 }

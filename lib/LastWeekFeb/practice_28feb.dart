@@ -6,19 +6,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class TowEight extends StatelessWidget {
-  const TowEight ({super.key});
+  const TowEight({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: TowEightHome(),
-    );
+    return MaterialApp(home: TowEightHome());
   }
 }
 
-class TowEightHome extends StatefulWidget  {
+class TowEightHome extends StatefulWidget {
   const TowEightHome({super.key});
   @override
-  State<TowEightHome> createState() =>TowEightState();
+  State<TowEightHome> createState() => TowEightState();
 }
 
 class TowEightState extends State<TowEightHome> {
@@ -35,17 +33,17 @@ class TowEightState extends State<TowEightHome> {
   }
 
   Future<void> loadTask() async {
-    if(isLoading) return;
+    if (isLoading) return;
     setState(() {
       isLoading = true;
       error = null;
     });
-    try{
+    try {
       final result = await controller.loadTasks();
       setState(() {
         //task = result;
       });
-    } catch (e){
+    } catch (e) {
       setState(() {
         error = "Error";
         task = [];
@@ -57,30 +55,29 @@ class TowEightState extends State<TowEightHome> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: isLoading
-        ? CircularProgressIndicator()
-        : error != null
-          ? Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text("Failed to load"),
-              SizedBox(height: 20,),
-              ElevatedButton(onPressed: loadTask, child: Text("Retry"))
-            ],
-          )
-        : RefreshIndicator(child:
-        ListView.builder(
-            itemCount: task.length,
-            itemBuilder: (context,index)=> ListTile(
-            title: Text(task[index]),
-            )
-        )
-            , onRefresh: loadTask)
+            ? CircularProgressIndicator()
+            : error != null
+            ? Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text("Failed to load"),
+                  SizedBox(height: 20),
+                  ElevatedButton(onPressed: loadTask, child: Text("Retry")),
+                ],
+              )
+            : RefreshIndicator(
+                onRefresh: loadTask,
+                child: ListView.builder(
+                  itemCount: task.length,
+                  itemBuilder: (context, index) =>
+                      ListTile(title: Text(task[index])),
+                ),
+              ),
       ),
     );
   }
