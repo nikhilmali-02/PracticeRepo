@@ -71,8 +71,26 @@
 //   print(largestNum);
 // }
 
+// expand method is used to expand each element of a list into multiple elements based on a provided function.
+// It takes a function that defines how to expand each element and returns a new iterable containing the
+// expanded values.
+// void main() {
+//   List<int> nums = [1, 2, 3];
+//   List<int> expandedNums = nums.expand((x) => List.filled(x, x)).toList();
+//   print(expandedNums);
+// }
+
+// sublist method is used to extract a portion of a list based on specified start and end indices.
+// void main() {
+//   List<String> fruits = ['apple', 'banana', 'kiwi', 'mango', 'grape', 'fig'];
+//   List<String> favFruits = fruits.sublist(0, 3);
+//   List<String> moreFruits = fruits.sublist(2, fruits.length);
+//   print(favFruits);
+//   print(moreFruits);
+// }
+
 void main() {
-  List<int> nums = [1, 2, 3];
-  List<int> expandedNums = nums.expand((x) => List.filled(x, x)).toList();
-  print(expandedNums);
+  List<int> nums = [4, 9, 15, 22, 7, 3];
+  int greateIndex = nums.indexWhere((item) => item > 10);
+  print(greateIndex);
 }
