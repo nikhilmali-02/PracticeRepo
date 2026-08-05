@@ -89,8 +89,15 @@
 //   print(moreFruits);
 // }
 
+// indexWhere method is used to find the index of the first element in a list that satisfies a given condition.
+// void main() {
+//   List<int> nums = [4, 9, 15, 22, 7, 3];
+//   int greatIndex = nums.indexWhere((item) => item > 10);
+//   print(greatIndex);
+// }
+
 void main() {
-  List<int> nums = [4, 9, 15, 22, 7, 3];
-  int greateIndex = nums.indexWhere((item) => item > 10);
-  print(greateIndex);
+  List<String> words = ['hi', 'ok', 'go'];
+  List<String> listWords = words.expand((x) => ['$x-1', '$x-2']).toList();
+  print(listWords);
 }
